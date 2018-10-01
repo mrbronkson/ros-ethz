@@ -1,5 +1,7 @@
 #include "husky_highlevel_controller/HuskyHighlevelController.hpp"
 #include <string>
+#include <iterator>
+#include <algorithm>
 
 namespace husky_highlevel_controller
 {
@@ -10,8 +12,10 @@ namespace husky_highlevel_controller
 
     void HuskyHighlevelController::laserScanCallback(const sensor_msgs::LaserScan& msg)
     {
-        ROS_INFO("Read scan range_min: %f", msg.range_min);
-        ROS_INFO("Read scan range_max: %f", msg.range_max);
+        ROS_INFO(
+            "Smallest distance: %f",
+            *std::min_element(std::begin(msg.ranges), std::end(msg.ranges))
+        );
     }
 
     void HuskyHighlevelController::listen()
